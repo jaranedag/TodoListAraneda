@@ -1,25 +1,41 @@
-import React from "react";
+import React, {useState} from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [inputValue, setInputValue] = useState ("");
+	const [tareas,setTareas] = useState(["Lavar la loza","Pasear al Perro","Pagar las cuentas"]);
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+	       <div className="container">
+			 <h1>Mi lista de Tareas </h1>
+                 <ul>
+					<li><input type="text"
+                      onChange={(e)=> setInputValue(e.target.value)}
+					  value={inputValue}
+					  onKeyPress={(e) => { 
+						 if(e.key  === "Enter") {
+							 setTareas(tareas.concat(inputValue));
+							 setInputValue("");
+							  }
+						  }}
+					 placeholder="Que necesitas hacer?" /></li>
+					 {tareas.map((t,i)=> ( 
+						<li> 
+							{t}<i  className="fas fa-times text-danger" onClick={()=> 
+								setTareas(
+									tareas.filter(
+										(t,index)=>
+										i != index
+										)
+									 )}></i>
+						</li>
+					  ))}
+				
+				</ul>
+				<div className="footer text-center ">{tareas.length} Tareas</div>
+		   </div>
 	);
 };
 
